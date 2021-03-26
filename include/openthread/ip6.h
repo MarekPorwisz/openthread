@@ -461,6 +461,7 @@ void otIp6SetAddressCallback(otInstance *aInstance, otIp6AddressCallback aCallba
  *
  * @sa otIp6SetReceiveCallback
  * @sa otIp6SetReceiveFilterEnabled
+ * @sa otIp6IsReceiveFullFilterEnabled
  *
  */
 bool otIp6IsReceiveFilterEnabled(otInstance *aInstance);
@@ -473,10 +474,42 @@ bool otIp6IsReceiveFilterEnabled(otInstance *aInstance);
  * @param[in]  aEnabled  TRUE if Thread control traffic is filtered out, FALSE otherwise.
  *
  * @sa otIp6SetReceiveCallback
- * @sa otIsReceiveIp6FilterEnabled
+ * @sa otIp6SetReceiveFullFilterEnabled
+ * @sa otIp6IsReceiveFilterEnabled
  *
  */
 void otIp6SetReceiveFilterEnabled(otInstance *aInstance, bool aEnabled);
+
+/**
+ * This function sets whether or not any Thread initiated traffic is filtered out when delivering IPv6 datagrams
+ * via the callback specified in otIp6SetReceiveCallback(). This filters out for example CoAP communication
+ * if OpenThread CoAP API is used.
+ *
+ * @param[in]  aInstance A pointer to an OpenThread instance.
+ * @param[in]  aEnabled  TRUE if Thread initiated traffic is filtered out, FALSE otherwise.
+ *
+ * @sa otIp6SetReceiveCallback
+ * @sa otIp6IsReceiveFullFilterEnabled
+ * @sa otIp6SetReceiveFilterEnabled
+ *
+ */
+void otIp6SetReceiveFullFilterEnabled(otInstance *aInstance, bool aEnabled);
+
+/**
+ * This function indicates whether or not Thread initiated traffic is filtered out when delivering IPv6 datagrams
+ * via the callback specified in otIp6SetReceiveCallback().  This filters out for example CoAP communication
+ * if OpenThread CoAP API is used.
+ *
+ * @param[in]  aInstance A pointer to an OpenThread instance.
+ *
+ * @returns  TRUE if Thread initiated traffic is filtered out, FALSE otherwise.
+ *
+ * @sa otIp6SetReceiveCallback
+ * @sa otIp6SetReceiveFullFilterEnabled
+ * @sa otIp6IsReceiveFilterEnabled
+ *
+ */
+bool otIp6IsReceiveFullFilterEnabled(otInstance *aInstance);
 
 /**
  * This function sends an IPv6 datagram via the Thread interface.

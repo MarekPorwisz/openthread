@@ -65,6 +65,7 @@ Ip6::Ip6(Instance &aInstance)
     : InstanceLocator(aInstance)
     , mForwardingEnabled(false)
     , mIsReceiveIp6FilterEnabled(false)
+    , mIsReceiveIp6FullFilterEnabled(false)
     , mReceiveIp6DatagramCallback(nullptr)
     , mReceiveIp6DatagramCallbackContext(nullptr)
     , mSendQueueTask(aInstance, Ip6::HandleSendQueue)
@@ -1035,8 +1036,15 @@ otError Ip6::ProcessReceiveCallback(Message &          aMessage,
             Udp::Header udp;
 
             IgnoreError(aMessage.Read(aMessage.GetOffset(), udp));
-            VerifyOrExit(Get<Udp>().ShouldUsePlatformUdp(udp.GetDestinationPort()), error = OT_ERROR_NO_ROUTE);
 
+            if(mIsReceiveIp6FullFilterEnabled)
+            {
+                VerifyOrExit(Get<Udp>().IsPortInUse(udp.GetDestinationPort()) == false, error = OT_ERROR_NO_ROUTE);
+            }
+            else
+            {
+                VerifyOrExit(Get<Udp>().ShouldUsePlatformUdp(udp.GetDestinationPort()), error = OT_ERROR_NO_ROUTE);
+            }
             break;
         }
 

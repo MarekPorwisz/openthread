@@ -153,6 +153,20 @@ bool otIp6IsReceiveFilterEnabled(otInstance *aInstance)
     return instance.Get<Ip6::Ip6>().IsReceiveIp6FilterEnabled();
 }
 
+void otIp6SetReceiveFullFilterEnabled(otInstance *aInstance, bool aEnabled)
+{
+    Instance &instance = *static_cast<Instance *>(aInstance);
+
+    instance.Get<Ip6::Ip6>().SetReceiveIp6FullFilterEnabled(aEnabled);
+}
+
+bool otIp6IsReceiveFullFilterEnabled(otInstance *aInstance)
+{
+    Instance &instance = *static_cast<Instance *>(aInstance);
+
+    return instance.Get<Ip6::Ip6>().IsReceiveIp6FullFilterEnabled();
+}
+
 void otIp6SetReceiveFilterEnabled(otInstance *aInstance, bool aEnabled)
 {
     Instance &instance = *static_cast<Instance *>(aInstance);

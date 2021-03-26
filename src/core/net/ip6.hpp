@@ -237,9 +237,24 @@ public:
      *
      * @sa IsReceiveIp6FilterEnabled
      * @sa SetReceiveIp6FilterEnabled
+     * @sa IsReceiveIp6FullFilterEnabled
+     * @sa SetReceiveIp6FullFilterEnabled
      *
      */
     void SetReceiveDatagramCallback(otIp6ReceiveCallback aCallback, void *aCallbackContext);
+
+    /**
+     * This method indicates whether or not Thread internally initiated traffic is filtered out when
+     * delivering IPv6 datagrams via the callback specified in SetReceiveIp6DatagramCallback().
+     *
+     * @returns  TRUE if Thread internal traffic is filtered out, FALSE otherwise.
+     *
+     * @sa SetReceiveDatagramCallback
+     * @sa SetReceiveIp6FilterEnabled
+     * @sa IsReceiveIp6FilterEnabled
+     *
+     */
+    bool IsReceiveIp6FullFilterEnabled(void) const { return mIsReceiveIp6FullFilterEnabled; }
 
     /**
      * This method indicates whether or not Thread control traffic is filtered out when delivering IPv6 datagrams
@@ -248,7 +263,8 @@ public:
      * @returns  TRUE if Thread control traffic is filtered out, FALSE otherwise.
      *
      * @sa SetReceiveDatagramCallback
-     * @sa SetReceiveIp6FilterEnabled
+     * @sa SetReceiveIp6FullFilterEnabled
+     * @sa IsReceiveIp6FullFilterEnabled
      *
      */
     bool IsReceiveIp6FilterEnabled(void) const { return mIsReceiveIp6FilterEnabled; }
@@ -261,9 +277,27 @@ public:
      *
      * @sa SetReceiveDatagramCallback
      * @sa IsReceiveIp6FilterEnabled
+     * @sa SetReceiveIp6FullFilterEnabled
      *
      */
     void SetReceiveIp6FilterEnabled(bool aEnabled) { mIsReceiveIp6FilterEnabled = aEnabled; }
+
+    /**
+     * This method sets whether or not any internal Thread communication is filtered out when
+     * delivering IPv6 datagrams via the callback specified in SetReceiveIp6DatagramCallback().
+     *
+     * @param[in]  aEnabled  TRUE if Thread internal traffic is filtered out, FALSE otherwise.
+     *
+     * @sa SetReceiveDatagramCallback
+     * @sa IsReceiveIp6FullFilterEnabled
+     * @sa SetReceiveIp6FilterEnabled
+     *
+     */
+    void SetReceiveIp6FullFilterEnabled(bool aEnabled)
+    {
+        SetReceiveIp6FilterEnabled(aEnabled);
+        mIsReceiveIp6FullFilterEnabled = aEnabled;
+    }
 
     /**
      * This method indicates whether or not IPv6 forwarding is enabled.
@@ -366,6 +400,7 @@ private:
 
     bool                 mForwardingEnabled;
     bool                 mIsReceiveIp6FilterEnabled;
+    bool                 mIsReceiveIp6FullFilterEnabled;
     otIp6ReceiveCallback mReceiveIp6DatagramCallback;
     void *               mReceiveIp6DatagramCallbackContext;
 
